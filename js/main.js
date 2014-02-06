@@ -15,29 +15,37 @@ var app = new Vue({
 })
 
 // Get data from subreddit
-getSubredditData = function(subreddit, callback) {
-    reqwest({
-        url: "http://api.reddit.com/r/" + subreddit + ".json", 
-        method: "GET",
-        type: "jsonp",
-        jsonpCallback: "jsonp",
-        success: function(res) {
-            callback(res.data);
-            app.$emit("subreddit download", subreddit);
-        }
+loadSubredditData = function() {
+    // Convert arguments to an array
+    arguments = Array.prototype.slice.call(arguments);
+
+    // Loop through the arguments
+    arguments.forEach(function(value, index) {
+        reqwest({
+            url: "http://api.reddit.com/r/" + value.toLowerCase() + ".json", 
+            method: "GET",
+            type: "jsonp",
+            jsonpCallback: "jsonp",
+            success: function(res) {
+                res.data.children = res.data.children.map(function(item) {
+                    return item.data;
+                });
+                app.subreddits[value] = res.data.children;
+                app.$emit("subreddit load data", value.toLowerCase());
+            }
+        });
     });
 }
 
 // Get subreddit data on startup
-getSubredditData("all", function(data) {
-    data.children = data.children.map(function(item) {
-        console.log(item.data)
-        return item.data;
-    });
-    app.subreddits.all = data.children;
-});
+loadSubredditData("all", "askreddit", "starbound")
 
 // Log some stuff
 app.$on("subreddit switch", function(subreddit) {
-    console.log("Switching to subreddit /r/" + subreddit);
+    console.log("Switching to /r/" + subreddit);
 });
+
+app.$on("subreddit load data", function(subreddit) {
+    console.log("Loading data for /r/" + subreddit);
+});
+

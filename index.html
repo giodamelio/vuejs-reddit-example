@@ -30,12 +30,13 @@
     
         <!-- Shows the reddit data -->
         <div class="row">
-            <div class="small-10 small-offset-1 columns">
-                <ul>
-                    <li v-repeat="subreddits.all">
-                        {{$index + 1}} - <a href="{{url}}">{{title}}</a>
-                    </li>
-                </ul>
+            <div class="small-12 columns">
+                <table class="fullwidth">
+                    <tr v-repeat="subreddits[activeSubreddit]">
+                        <td class="number">{{$index + 1}}</td>
+                        <td class="link"><a href="{{url}}">{{title}}</a></td>
+                    </tr>
+                </table>
             </div>
         </div>
 
