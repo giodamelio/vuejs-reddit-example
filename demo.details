@@ -1,9 +1,0 @@
----
-name: Vue.js Reddit Example
-description: A simple example of a simple readonly reddit clone with vuejs.
-authors:
-  - Gio d'Amelio
-resources:
-  - https://rawgithub.com/yyx990803/vue/master/dist/vue.min.js
-  - http://yui.yahooapis.com/pure/0.3.0/pure-min.css
-...
